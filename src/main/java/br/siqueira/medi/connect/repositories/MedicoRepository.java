@@ -11,12 +11,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author eduar
  */
 public class MedicoRepository {
+    
+    private static final String INDEX = 
+            "SELECT M.ID, M.CRM "
+            + "FROM MEDICOS AS M "
+            + "INNER JOIN ESPECIALIDADES ON M.ESPECIALIDADE_ID = ESPECIALIDADES.ID "
+            + "INNER JOIN PESSOAS ON M.PESSOA_ID = PESSOAS.ID "
+            + "INNER JOIN ENDERECOS ON PESSOAS.ENDERECO_ID = ENDERECOS.ID; ";
     
     public MedicoRepository() {}
     
@@ -62,5 +70,35 @@ public class MedicoRepository {
                 conn.close();
         }
         return medico;
+    }
+
+    public ArrayList<Medico> index() throws SQLException {
+        ArrayList<Medico> medicos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(INDEX);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Medico medico = new Medico();
+                medico.setId(rs.getInt("ID"));
+                medico.setCrm(rs.getString("CRM"));
+                
+                medicos.add(medico);
+            }
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return medicos;
     }
 }

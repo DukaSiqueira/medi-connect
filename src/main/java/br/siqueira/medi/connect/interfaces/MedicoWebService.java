@@ -8,6 +8,7 @@ import br.siqueira.medi.connect.models.Medico;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,4 +19,7 @@ public interface MedicoWebService {
     
     @WebMethod
     Medico insert(Medico medico) throws SQLException;
+    
+    @WebMethod
+    ArrayList<Medico> index() throws SQLException;
 }

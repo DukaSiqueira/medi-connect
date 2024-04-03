@@ -7,6 +7,7 @@ package br.siqueira.medi.connect.services;
 import br.siqueira.medi.connect.models.Medico;
 import br.siqueira.medi.connect.repositories.MedicoRepository;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,6 +36,11 @@ public class MedicoService {
                 medico.getCrm().isBlank()) {
             throw new IllegalArgumentException("CRM não informado!");
         }
+    }
+
+    public ArrayList<Medico> index() throws SQLException {
+        MedicoRepository medicoRepository = new MedicoRepository();
+        return medicoRepository.index();
     }
     
 }
