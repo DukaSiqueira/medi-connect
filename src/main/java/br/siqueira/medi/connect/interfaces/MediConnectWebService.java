@@ -4,6 +4,7 @@
  */
 package br.siqueira.medi.connect.interfaces;
 
+import br.siqueira.medi.connect.models.Endereco;
 import br.siqueira.medi.connect.models.Medico;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
@@ -15,11 +16,14 @@ import java.util.ArrayList;
  * @author eduar
  */
 @WebService
-public interface MedicoWebService {
+public interface MediConnectWebService {
     
     @WebMethod
-    Medico insert(Medico medico) throws SQLException;
+    Endereco insertEndereco(Endereco endereco) throws SQLException;
     
     @WebMethod
-    ArrayList<Medico> index() throws SQLException;
+    Medico insertMedico(Medico medico) throws SQLException;
+    
+    @WebMethod
+    ArrayList<Medico> indexMedicos() throws SQLException;
 }
