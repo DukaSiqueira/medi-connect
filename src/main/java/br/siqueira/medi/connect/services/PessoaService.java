@@ -19,7 +19,7 @@ public class PessoaService {
         return pessoaRepository.insert(pessoa);
     }
     
-    public void validatePessoa(Pessoa pessoa) {
+    public void validateInsertPessoa(Pessoa pessoa) {
         if (pessoa.getNome().isEmpty() ||
                 pessoa.getNome().isBlank()) {
             throw new IllegalArgumentException("Nome não informado!");

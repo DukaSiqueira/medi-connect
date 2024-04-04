@@ -5,7 +5,9 @@
 package br.siqueira.medi.connect.repositories;
 
 import br.siqueira.medi.connect.infraestructure.ConnectionFactory;
+import br.siqueira.medi.connect.models.Especialidade;
 import br.siqueira.medi.connect.models.Medico;
+import br.siqueira.medi.connect.models.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +22,12 @@ import java.util.ArrayList;
 public class MedicoRepository {
     
     private static final String INDEX = 
-            "SELECT M.ID, M.CRM "
+            "SELECT P.NOME, P.EMAIL, M.CRM, E.DESCRICAO "
             + "FROM MEDICOS AS M "
-            + "INNER JOIN ESPECIALIDADES ON M.ESPECIALIDADE_ID = ESPECIALIDADES.ID "
-            + "INNER JOIN PESSOAS ON M.PESSOA_ID = PESSOAS.ID "
-            + "INNER JOIN ENDERECOS ON PESSOAS.ENDERECO_ID = ENDERECOS.ID; ";
+            + "INNER JOIN ESPECIALIDADES AS E ON M.ESPECIALIDADE_ID = E.ID "
+            + "INNER JOIN PESSOAS AS P ON M.PESSOA_ID = P.ID "
+            + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
+            + "ORDER BY P.NOME ASC;";
     
     public MedicoRepository() {}
     
@@ -84,10 +87,18 @@ public class MedicoRepository {
             rs = ps.executeQuery();
             
             while (rs.next()) {
+                Pessoa pessoa = new Pessoa();
+                Especialidade especialidade = new Especialidade();
                 Medico medico = new Medico();
-                medico.setId(rs.getInt("ID"));
-                medico.setCrm(rs.getString("CRM"));
                 
+                pessoa.setNome(rs.getString("NOME"));
+                pessoa.setEmail(rs.getString("EMAIL"));
+                
+                especialidade.setDescricao(rs.getString("DESCRICAO"));
+                
+                medico.setCrm(rs.getString("CRM"));
+                medico.setPessoa(pessoa);
+                medico.setEspecialidade(especialidade);
                 medicos.add(medico);
             }
         } finally {

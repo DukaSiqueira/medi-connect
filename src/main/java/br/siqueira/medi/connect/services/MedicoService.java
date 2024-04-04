@@ -18,19 +18,19 @@ public class MedicoService {
     public Medico insert(Medico medico) throws SQLException {
         /* Validação de Endereço */
         EnderecoService enderecoService = new EnderecoService();
-        enderecoService.validateEndereco(medico.getPessoa().getEndereco());
+        enderecoService.validateInsertEndereco(medico.getPessoa().getEndereco());
         
         
         /* Validação de Pessoa */
         PessoaService pessoaService = new PessoaService();
-        pessoaService.validatePessoa(medico.getPessoa());
+        pessoaService.validateInsertPessoa(medico.getPessoa());
         
-        validateMedico(medico);
+        validateInsertMedico(medico);
         MedicoRepository medicoRepository = new MedicoRepository();
         return medicoRepository.insert(medico);
     }
     
-    private void validateMedico(Medico medico) {
+    private void validateInsertMedico(Medico medico) {
         /* Validação do Médico */
         if (medico.getCrm().isEmpty() ||
                 medico.getCrm().isBlank()) {

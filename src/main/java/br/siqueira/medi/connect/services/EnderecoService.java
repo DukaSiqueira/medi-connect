@@ -19,7 +19,7 @@ public class EnderecoService {
         return enderecoRepository.insert(endereco);
     }
     
-    public void validateEndereco(Endereco endereco) {
+    public void validateInsertEndereco(Endereco endereco) {
         if (endereco.getLogradouro().isEmpty() ||
                 endereco.getLogradouro().isBlank()) {
             throw new IllegalArgumentException("Logradouro não informado!");
