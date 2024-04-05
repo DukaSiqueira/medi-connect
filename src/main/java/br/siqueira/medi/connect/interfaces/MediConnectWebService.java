@@ -36,4 +36,7 @@ public interface MediConnectWebService {
     
     @WebMethod
     Paciente insertPaciente(Paciente paciente) throws SQLException;
+    
+    @WebMethod
+    ArrayList<Paciente> indexPacientes() throws SQLException;
 }

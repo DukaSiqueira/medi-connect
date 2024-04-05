@@ -6,11 +6,13 @@ package br.siqueira.medi.connect.repositories;
 
 import br.siqueira.medi.connect.infraestructure.ConnectionFactory;
 import br.siqueira.medi.connect.models.Paciente;
+import br.siqueira.medi.connect.models.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +23,13 @@ public class PacienteRepository {
     private static final String INSERT =
             "INSERT INTO PACIENTES (CPF, PESSOA_ID) "
             + "VALUES (?, ?)";
+   
+    private static final String INDEX = 
+            "SELECT P.NOME, P.EMAIL, PC.CPF "
+            + "FROM PACIENTES AS PC "
+            + "INNER JOIN PESSOAS AS P ON PC.PESSOA_ID = P.ID "
+            + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
+            + "ORDER BY P.NOME ASC;";    
 
     public Paciente insert(Paciente paciente) throws SQLException{
         
@@ -59,6 +68,40 @@ public class PacienteRepository {
                 conn.close();
         }
         return paciente;
+    }
+
+    public ArrayList<Paciente> index() throws SQLException{
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(INDEX);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Pessoa pessoa = new Pessoa();
+                Paciente paciente = new Paciente();
+                
+                pessoa.setNome(rs.getString("NOME"));
+                pessoa.setEmail(rs.getString("EMAIL"));
+                
+                paciente.setCpf(rs.getString("CPF"));
+                paciente.setPessoa(pessoa);
+                pacientes.add(paciente);
+            }
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return pacientes;
     }
     
 }

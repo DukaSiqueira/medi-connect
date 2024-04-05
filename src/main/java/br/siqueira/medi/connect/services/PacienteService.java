@@ -7,6 +7,7 @@ package br.siqueira.medi.connect.services;
 import br.siqueira.medi.connect.models.Paciente;
 import br.siqueira.medi.connect.repositories.PacienteRepository;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,6 +28,11 @@ public class PacienteService {
         
         PacienteRepository pacienteRepository = new PacienteRepository();
         return pacienteRepository.insert(paciente);
+    }
+    
+    public ArrayList<Paciente> index() throws SQLException{
+        PacienteRepository pacienteRepository = new PacienteRepository();
+        return pacienteRepository.index();        
     }
 
     private void validateInsertPaciente(Paciente paciente) {

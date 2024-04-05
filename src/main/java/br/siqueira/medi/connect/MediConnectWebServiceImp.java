@@ -59,5 +59,11 @@ public class MediConnectWebServiceImp implements MediConnectWebService{
         PacienteService pacienteService = new PacienteService();
         return pacienteService.insert(paciente);
     }
+
+    @Override
+    public ArrayList<Paciente> indexPacientes() throws SQLException {
+        PacienteService pacienteService = new PacienteService();
+        return pacienteService.index();
+    }
     
 }
