@@ -36,4 +36,12 @@ public class PessoaService {
         }
     }
     
+    
+    public void validateUpdatePessoa(Pessoa pessoa) {
+        if (!pessoa.getEmail().isEmpty() ||
+                !pessoa.getEmail().isBlank()) {
+            throw new IllegalArgumentException("E-mail não pode ser alterado!");
+        }
+    }    
+    
 }

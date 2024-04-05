@@ -29,6 +29,9 @@ public class MedicoRepository {
             + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
             + "ORDER BY P.NOME ASC;";
     
+    private static final String UPDATE = 
+            "UPDATE ";
+    
     public MedicoRepository() {}
     
     // Chamar os repositories para cada um fazer sua inserção
@@ -111,5 +114,23 @@ public class MedicoRepository {
         }
         
         return medicos;
+    }
+
+    public Medico update(Medico medico) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return medico;
     }
 }

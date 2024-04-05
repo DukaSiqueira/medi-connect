@@ -20,14 +20,40 @@ public class MedicoService {
         EnderecoService enderecoService = new EnderecoService();
         enderecoService.validateInsertEndereco(medico.getPessoa().getEndereco());
         
-        
         /* Validação de Pessoa */
         PessoaService pessoaService = new PessoaService();
         pessoaService.validateInsertPessoa(medico.getPessoa());
         
+        /* Validação do Médico */
         validateInsertMedico(medico);
+        
         MedicoRepository medicoRepository = new MedicoRepository();
         return medicoRepository.insert(medico);
+    }
+
+    public ArrayList<Medico> index() throws SQLException {
+        MedicoRepository medicoRepository = new MedicoRepository();
+        return medicoRepository.index();
+    }
+
+    public Medico update(Medico medico) throws SQLException {
+        /* Validação de Endereço */
+        EnderecoService enderecoService = new EnderecoService();
+        enderecoService.validateInsertEndereco(medico.getPessoa().getEndereco());
+        
+        /* Validação de Pessoa */
+        PessoaService pessoaService = new PessoaService();
+        pessoaService.validateUpdatePessoa(medico.getPessoa());
+        
+        /* Validação de Especialidade */
+        EspecialidadeService especialidadeService = new EspecialidadeService();
+        especialidadeService.validateUpdateEspecialidade(medico.getEspecialidade());
+        
+        /* Validação do Médico */
+        validateUpdateMedico(medico);
+        
+        MedicoRepository medicoRepository = new MedicoRepository();
+        return medicoRepository.update(medico);
     }
     
     private void validateInsertMedico(Medico medico) {
@@ -37,10 +63,13 @@ public class MedicoService {
             throw new IllegalArgumentException("CRM não informado!");
         }
     }
-
-    public ArrayList<Medico> index() throws SQLException {
-        MedicoRepository medicoRepository = new MedicoRepository();
-        return medicoRepository.index();
+    
+    private void validateUpdateMedico(Medico medico) {
+        /* Validação de update do médico */
+        if (!medico.getCrm().isEmpty() ||
+                !medico.getCrm().isBlank()) {
+            throw new IllegalArgumentException("CRM não pode ser alterado!");
+        }
     }
     
 }

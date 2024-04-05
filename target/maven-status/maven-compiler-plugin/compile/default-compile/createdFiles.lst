@@ -11,4 +11,5 @@ br\siqueira\medi\connect\repositories\MedicoRepository.class
 br\siqueira\medi\connect\models\Endereco.class
 br\siqueira\medi\connect\repositories\EnderecoRepository.class
 br\siqueira\medi\connect\repositories\PessoaRepository.class
+br\siqueira\medi\connect\services\EspecialidadeService.class
 br\siqueira\medi\connect\services\PessoaService.class

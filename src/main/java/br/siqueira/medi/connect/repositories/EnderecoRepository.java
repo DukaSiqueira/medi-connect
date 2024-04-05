@@ -18,6 +18,11 @@ import java.sql.Statement;
  */
 public class EnderecoRepository {
     
+    private static final String UPDATE =
+            "UPDATE ENDERECOS SET "
+            + "LOGRADOURO = ?, NUMERO = ?, COMPLEMENTO = ?, BAIRRO = ? "
+            + "WHERE ID = ?";
+    
     public EnderecoRepository() {}
     
     public Endereco insert (Endereco endereco) throws SQLException {

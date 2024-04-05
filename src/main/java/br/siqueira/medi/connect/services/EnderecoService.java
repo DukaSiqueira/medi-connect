@@ -31,4 +31,8 @@ public class EnderecoService {
         }
     }
     
+    public void validateUpdateEndereco(Endereco endereco) throws SQLException {
+        this.validateInsertEndereco(endereco);
+    }
+    
 }
