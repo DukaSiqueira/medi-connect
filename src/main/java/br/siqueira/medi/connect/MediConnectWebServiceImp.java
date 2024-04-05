@@ -7,8 +7,10 @@ package br.siqueira.medi.connect;
 import br.siqueira.medi.connect.interfaces.MediConnectWebService;
 import br.siqueira.medi.connect.models.Endereco;
 import br.siqueira.medi.connect.models.Medico;
+import br.siqueira.medi.connect.models.Paciente;
 import br.siqueira.medi.connect.services.EnderecoService;
 import br.siqueira.medi.connect.services.MedicoService;
+import br.siqueira.medi.connect.services.PacienteService;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
@@ -44,6 +46,12 @@ public class MediConnectWebServiceImp implements MediConnectWebService{
     public Medico updateMedico(Medico medico) throws SQLException {
         MedicoService medicoService = new MedicoService();
         return medicoService.update(medico);
+    }
+
+    @Override
+    public Paciente insertPaciente(Paciente paciente) throws SQLException {
+        PacienteService pacienteService = new PacienteService();
+        return pacienteService.insert(paciente);
     }
     
 }

@@ -6,6 +6,7 @@ package br.siqueira.medi.connect.interfaces;
 
 import br.siqueira.medi.connect.models.Endereco;
 import br.siqueira.medi.connect.models.Medico;
+import br.siqueira.medi.connect.models.Paciente;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import java.sql.SQLException;
@@ -29,4 +30,7 @@ public interface MediConnectWebService {
     
     @WebMethod
     Medico updateMedico(Medico medico) throws SQLException;
+    
+    @WebMethod
+    Paciente insertPaciente(Paciente paciente) throws SQLException;
 }
