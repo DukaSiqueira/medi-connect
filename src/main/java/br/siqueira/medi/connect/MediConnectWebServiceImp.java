@@ -41,6 +41,12 @@ public class MediConnectWebServiceImp implements MediConnectWebService{
         MedicoService medicoService = new MedicoService();
         return medicoService.index();
     }
+    
+    @Override
+    public void inactiveMedico(Medico medico) throws SQLException {
+        MedicoService medicoService = new MedicoService();
+        medicoService.inactive(medico);
+    }
 
     @Override
     public Medico updateMedico(Medico medico) throws SQLException {

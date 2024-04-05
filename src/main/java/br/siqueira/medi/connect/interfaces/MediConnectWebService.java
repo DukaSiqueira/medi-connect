@@ -29,6 +29,9 @@ public interface MediConnectWebService {
     ArrayList<Medico> indexMedicos() throws SQLException;
     
     @WebMethod
+    void inactiveMedico(Medico medico) throws SQLException;
+    
+    @WebMethod
     Medico updateMedico(Medico medico) throws SQLException;
     
     @WebMethod

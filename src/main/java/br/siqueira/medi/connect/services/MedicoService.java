@@ -56,6 +56,15 @@ public class MedicoService {
         return medicoRepository.update(medico);
     }
     
+    public void inactive(Medico medico) throws SQLException{
+        /* Validação de Pessoa */
+        PessoaService pessoaService = new PessoaService();
+        pessoaService.validateInactivePessoa(medico.getPessoa());
+        
+        MedicoRepository medicoRepository = new MedicoRepository();
+        medicoRepository.inactive(medico);
+    }
+    
     private void validateInsertMedico(Medico medico) {
         /* Validação do Médico */
         if (medico.getCrm().isEmpty() ||

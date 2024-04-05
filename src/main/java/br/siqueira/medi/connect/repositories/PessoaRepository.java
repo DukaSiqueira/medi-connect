@@ -23,6 +23,10 @@ public class PessoaRepository {
         + "NOME = ?, TELEFONE = ?, IS_ACTIVE = ?, ENDERECO_ID = ? "
         + "WHERE ID = ?";
 
+    private static final String INACTIVE =
+        "UPDATE PESSOAS SET "
+        + "IS_ACTIVE = FALSE "
+        + "WHERE ID = ?";
     
     public PessoaRepository() {}
     
@@ -73,6 +77,25 @@ public class PessoaRepository {
             ps.setBoolean(3, pessoa.isIs_active());
             ps.setInt(4, pessoa.getEndereco().getId());
             ps.setInt(5, pessoa.getId());
+
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+    }
+
+    void inactive(Pessoa pessoa) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+    
+        try {
+            conn = new ConnectionFactory().getConnection();
+
+            ps = conn.prepareStatement(INACTIVE);
+            ps.setInt(1, pessoa.getId());
 
             ps.executeUpdate();
         } finally {

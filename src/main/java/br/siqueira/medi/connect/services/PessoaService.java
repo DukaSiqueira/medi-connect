@@ -42,6 +42,13 @@ public class PessoaService {
                 !pessoa.getEmail().isBlank()) {
             throw new IllegalArgumentException("E-mail não pode ser alterado!");
         }
-    }    
+    }
+    
+    public void validateInactivePessoa(Pessoa pessoa) {
+        if (pessoa.getId() == 0) {
+            throw new IllegalArgumentException("Pessoa ID não informado para"
+                    + "realizar inativação!");
+        }
+    }
     
 }
