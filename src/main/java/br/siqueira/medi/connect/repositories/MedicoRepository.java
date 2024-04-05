@@ -122,6 +122,12 @@ public class MedicoRepository {
         ResultSet rs = null;
         try {
             
+            EnderecoRepository enderecoRepository = new EnderecoRepository();
+            enderecoRepository.update(medico.getPessoa().getEndereco());
+            
+            PessoaRepository pessoaRepository = new PessoaRepository();
+            pessoaRepository.update(medico.getPessoa());
+            
         } finally {
             if (rs != null)
                 rs.close();

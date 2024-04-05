@@ -59,4 +59,30 @@ public class EnderecoRepository {
         return endereco;
     }
     
+    public void update (Endereco endereco) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            
+            ps = conn.prepareStatement(UPDATE);
+            ps.setString(1, endereco.getLogradouro());
+            ps.setString(2, endereco.getNumero());
+            ps.setString(3, endereco.getComplemento());
+            ps.setString(4, endereco.getBairro());
+            ps.setInt(5, endereco.getId());
+            
+            ps.executeUpdate();
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+    }
+    
 }

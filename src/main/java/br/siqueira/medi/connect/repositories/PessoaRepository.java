@@ -18,6 +18,12 @@ import java.sql.Statement;
  */
 public class PessoaRepository {
     
+    private static final String UPDATE =
+        "UPDATE PESSOAS SET "
+        + "NOME = ?, TELEFONE = ?, IS_ACTIVE = ?, ENDERECO_ID = ? "
+        + "WHERE ID = ?";
+
+    
     public PessoaRepository() {}
     
     public Pessoa insert(Pessoa pessoa) throws SQLException {
@@ -53,5 +59,29 @@ public class PessoaRepository {
         }
         return pessoa;        
     }
+    
+    public void update(Pessoa pessoa) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+    
+        try {
+            conn = new ConnectionFactory().getConnection();
+
+            ps = conn.prepareStatement(UPDATE);
+            ps.setString(1, pessoa.getNome());
+            ps.setString(2, pessoa.getTelefone());
+            ps.setBoolean(3, pessoa.isIs_active());
+            ps.setInt(4, pessoa.getEndereco().getId());
+            ps.setInt(5, pessoa.getId());
+
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+    }
+
     
 }
