@@ -22,7 +22,8 @@ import java.util.ArrayList;
 public class MedicoRepository {
     
     private static final String INDEX = 
-            "SELECT P.NOME, P.EMAIL, M.CRM, E.DESCRICAO "
+            "SELECT P.NOME, P.EMAIL, M.CRM, E.DESCRICAO, M.ID M_ID,"
+            + "E.ID E_ID, P.ID AS P_ID "
             + "FROM MEDICOS AS M "
             + "INNER JOIN ESPECIALIDADES AS E ON M.ESPECIALIDADE_ID = E.ID "
             + "INNER JOIN PESSOAS AS P ON M.PESSOA_ID = P.ID "
@@ -93,10 +94,13 @@ public class MedicoRepository {
                 
                 pessoa.setNome(rs.getString("NOME"));
                 pessoa.setEmail(rs.getString("EMAIL"));
+                pessoa.setId(rs.getInt("P_ID"));
                 
                 especialidade.setDescricao(rs.getString("DESCRICAO"));
+                especialidade.setId(rs.getInt("E_ID"));
                 
                 medico.setCrm(rs.getString("CRM"));
+                medico.setId(rs.getInt("M_ID"));
                 medico.setPessoa(pessoa);
                 medico.setEspecialidade(especialidade);
                 medicos.add(medico);

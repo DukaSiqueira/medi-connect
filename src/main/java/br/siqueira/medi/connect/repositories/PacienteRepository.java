@@ -25,7 +25,8 @@ public class PacienteRepository {
             + "VALUES (?, ?)";
    
     private static final String INDEX = 
-            "SELECT P.NOME, P.EMAIL, PC.CPF "
+            "SELECT P.NOME, P.EMAIL, PC.CPF, PC.ID PC_ID,"
+            + "P.ID AS P_ID "
             + "FROM PACIENTES AS PC "
             + "INNER JOIN PESSOAS AS P ON PC.PESSOA_ID = P.ID "
             + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
@@ -87,8 +88,10 @@ public class PacienteRepository {
                 
                 pessoa.setNome(rs.getString("NOME"));
                 pessoa.setEmail(rs.getString("EMAIL"));
+                pessoa.setId(rs.getInt("P_ID"));
                 
                 paciente.setCpf(rs.getString("CPF"));
+                paciente.setId(rs.getInt("PC_ID"));
                 paciente.setPessoa(pessoa);
                 pacientes.add(paciente);
             }
