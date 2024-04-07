@@ -30,6 +30,12 @@ public class MedicoRepository {
             + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
             + "ORDER BY P.NOME ASC;";
     
+    private static final String CHECK_MEDICO_ATIVO =
+            "SELECT * "
+            + "FROM MEDICOS "
+            + "INNER JOIN PESSOAS ON MEDICOS.PESSOA_ID = PESSOAS.ID "
+            + "WHERE MEDICOS.ID = ?";
+    
     public MedicoRepository() {}
     
     // Chamar os repositories para cada um fazer sua inserção
@@ -156,5 +162,39 @@ public class MedicoRepository {
             if (conn != null)
                 conn.close();
         }
+    }
+
+    public Medico checkActive(Medico medico) throws SQLException{
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(CHECK_MEDICO_ATIVO);
+            ps.setInt(1, medico.getId());
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+               Pessoa pessoa = new Pessoa();
+               medico = new Medico();
+
+               pessoa.setNome(rs.getString("NOME"));
+               pessoa.setEmail(rs.getString("EMAIL"));
+               pessoa.setIs_active(rs.getBoolean("IS_ACTIVE"));
+
+               medico.setCrm(rs.getString("CRM"));
+               medico.setPessoa(pessoa);
+           }
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return medico;
     }
 }

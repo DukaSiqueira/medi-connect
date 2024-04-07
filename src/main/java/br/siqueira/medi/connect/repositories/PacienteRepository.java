@@ -32,6 +32,12 @@ public class PacienteRepository {
             + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
             + "ORDER BY P.NOME ASC;";
     
+    private static final String CHECK_PACIENTE_ATIVO =
+            "SELECT * "
+            + "FROM PACIENTES "
+            + "INNER JOIN PESSOAS ON PACIENTES.PESSOA_ID = PESSOAS.ID "
+            + "WHERE PACIENTES.ID = ?";
+    
     public Paciente insert(Paciente paciente) throws SQLException{
         
         Connection conn = null;
@@ -146,6 +152,40 @@ public class PacienteRepository {
             if (conn != null)
                 conn.close();
         }        
+    }
+    
+    public Paciente checkActive(Paciente paciente) throws SQLException{
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(CHECK_PACIENTE_ATIVO);
+            ps.setInt(1, paciente.getId());
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+               Pessoa pessoa = new Pessoa();
+               paciente = new Paciente();
+
+               pessoa.setNome(rs.getString("NOME"));
+               pessoa.setEmail(rs.getString("EMAIL"));
+               pessoa.setIs_active(rs.getBoolean("IS_ACTIVE"));
+
+               paciente.setCpf(rs.getString("CPF"));
+               paciente.setPessoa(pessoa);
+           }
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return paciente;
     }
     
 }
