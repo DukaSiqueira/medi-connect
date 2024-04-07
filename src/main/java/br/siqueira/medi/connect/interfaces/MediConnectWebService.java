@@ -4,6 +4,7 @@
  */
 package br.siqueira.medi.connect.interfaces;
 
+import br.siqueira.medi.connect.models.Consulta;
 import br.siqueira.medi.connect.models.Endereco;
 import br.siqueira.medi.connect.models.Medico;
 import br.siqueira.medi.connect.models.Paciente;
@@ -45,4 +46,7 @@ public interface MediConnectWebService {
     
     @WebMethod
     void inactivePaciente(Paciente paciente) throws SQLException;
+    
+    @WebMethod
+    Consulta insertConsulta(Consulta consulta) throws SQLException;
 }

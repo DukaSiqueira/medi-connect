@@ -5,9 +5,11 @@
 package br.siqueira.medi.connect;
 
 import br.siqueira.medi.connect.interfaces.MediConnectWebService;
+import br.siqueira.medi.connect.models.Consulta;
 import br.siqueira.medi.connect.models.Endereco;
 import br.siqueira.medi.connect.models.Medico;
 import br.siqueira.medi.connect.models.Paciente;
+import br.siqueira.medi.connect.services.ConsultaService;
 import br.siqueira.medi.connect.services.EnderecoService;
 import br.siqueira.medi.connect.services.MedicoService;
 import br.siqueira.medi.connect.services.PacienteService;
@@ -76,6 +78,12 @@ public class MediConnectWebServiceImp implements MediConnectWebService{
     public void inactivePaciente(Paciente paciente) throws SQLException {
         PacienteService pacienteService = new PacienteService();
         pacienteService.inactvie(paciente);
+    }
+
+    @Override
+    public Consulta insertConsulta(Consulta consulta) throws SQLException {
+        ConsultaService consultaService = new ConsultaService();
+        return consultaService.insert(consulta);
     }
     
 }

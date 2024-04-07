@@ -1,6 +1,7 @@
 br\siqueira\medi\connect\MediConnectWebServiceImp.class
 br\siqueira\medi\connect\models\Medico.class
 br\siqueira\medi\connect\services\MedicoService.class
+br\siqueira\medi\connect\models\Consulta.class
 br\siqueira\medi\connect\interfaces\MediConnectWebService.class
 br\siqueira\medi\connect\models\Especialidade.class
 br\siqueira\medi\connect\infraestructure\ConnectionFactory.class
@@ -8,10 +9,12 @@ br\siqueira\medi\connect\models\Paciente.class
 br\siqueira\medi\connect\services\EnderecoService.class
 br\siqueira\medi\connect\models\Pessoa.class
 br\siqueira\medi\connect\services\PacienteService.class
+br\siqueira\medi\connect\services\ConsultaService.class
 br\siqueira\medi\connect\repositories\MedicoRepository.class
 br\siqueira\medi\connect\models\Endereco.class
 br\siqueira\medi\connect\repositories\EnderecoRepository.class
 br\siqueira\medi\connect\repositories\PessoaRepository.class
 br\siqueira\medi\connect\services\EspecialidadeService.class
 br\siqueira\medi\connect\services\PessoaService.class
+br\siqueira\medi\connect\repositories\ConsultaRepository.class
 br\siqueira\medi\connect\repositories\PacienteRepository.class
