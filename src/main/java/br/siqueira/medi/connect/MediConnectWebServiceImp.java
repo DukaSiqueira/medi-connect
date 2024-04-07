@@ -85,5 +85,11 @@ public class MediConnectWebServiceImp implements MediConnectWebService{
         ConsultaService consultaService = new ConsultaService();
         return consultaService.insert(consulta);
     }
+
+    @Override
+    public void cancelConsulta(Consulta consulta) throws SQLException {
+        ConsultaService consultaService = new ConsultaService();
+        consultaService.cancelarConsulta(consulta);
+    }
     
 }

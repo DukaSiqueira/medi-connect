@@ -6,6 +6,8 @@ package br.siqueira.medi.connect.repositories;
 
 import br.siqueira.medi.connect.infraestructure.ConnectionFactory;
 import br.siqueira.medi.connect.models.Consulta;
+import br.siqueira.medi.connect.models.Medico;
+import br.siqueira.medi.connect.models.Paciente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,14 +30,63 @@ public class ConsultaRepository {
             "SELECT COUNT(*) AS TOTAL "
             + "FROM CONSULTAS "
             + "WHERE CONSULTAS.PACIENTE_ID = ? "
-            + "AND DATE(START_DATE) = ? ";
+            + "AND START_DATE = ? ";
     
     private static final String CHECK_CONSULTAS_DIA_MEDICO = 
             "SELECT COUNT(*) AS TOTAL "
             + "FROM CONSULTAS "
             + "WHERE CONSULTAS.MEDICO_ID = ? "
-            + "AND DATE(START_DATE) = ? ";    
+            + "AND START_DATE = ? ";
+    
+    private static final String CANCELAR_CONSULTA =
+            "UPDATE CONSULTAS "
+            + "SET STATUS = 'CANCELADO', MOTIVO_CANCELAMENTO = ?, DATE_CANCELAMENTO = ? "
+            + "WHERE ID = ?";
+    
+    private static final String FIND_BY_ID =
+            "SELECT * FROM CONSULTAS WHERE ID = ?";    
 
+    public Consulta findById(int id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Consulta consulta = null;
+
+        try {
+            conn = new ConnectionFactory().getConnection();
+            
+            ps = conn.prepareStatement(FIND_BY_ID);
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Paciente paciente = new Paciente();
+                paciente.setId(rs.getInt("PACIENTE_ID"));
+                
+                Medico medico = new Medico();
+                medico.setId(rs.getInt("MEDICO_ID"));
+                
+                consulta = new Consulta();
+                consulta.setId(rs.getInt("ID"));
+                consulta.setPaciente(paciente);
+                consulta.setMedico(medico);
+                consulta.setStartdDate(rs.getString("START_DATE"));
+                consulta.setEndDate(rs.getString("END_DATE"));
+            }
+
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+
+        return consulta;
+    }
+    
     public Consulta insert(Consulta consulta) throws SQLException {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -124,5 +175,27 @@ public class ConsultaRepository {
         }
 
         return total;
+    }
+    
+    public void cancelarConsulta(Consulta consulta) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = new ConnectionFactory().getConnection();
+            
+            ps = conn.prepareStatement(CANCELAR_CONSULTA);
+            ps.setString(1, consulta.getMotivo_cancelamento());
+            ps.setObject(2, LocalDateTime.now());
+            ps.setInt(3, consulta.getId());
+            
+            ps.executeUpdate();
+
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
     }
 }

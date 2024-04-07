@@ -49,4 +49,7 @@ public interface MediConnectWebService {
     
     @WebMethod
     Consulta insertConsulta(Consulta consulta) throws SQLException;
+    
+    @WebMethod
+    void cancelConsulta(Consulta consulta) throws SQLException;
 }

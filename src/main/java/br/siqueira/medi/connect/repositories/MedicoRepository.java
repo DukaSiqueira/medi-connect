@@ -13,7 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,6 +38,14 @@ public class MedicoRepository {
             + "FROM MEDICOS "
             + "INNER JOIN PESSOAS ON MEDICOS.PESSOA_ID = PESSOAS.ID "
             + "WHERE MEDICOS.ID = ?";
+    
+    private static final String FIND_AVAILABLE_MEDICOS =
+        "SELECT MEDICOS.ID "
+        + "FROM MEDICOS "
+        + "INNER JOIN PESSOAS ON MEDICOS.PESSOA_ID = PESSOAS.ID "
+        + "LEFT JOIN CONSULTAS ON MEDICOS.ID = CONSULTAS.MEDICO_ID "
+        + "WHERE CONSULTAS.MEDICO_ID IS NULL OR CONSULTAS.START_DATE != ? "
+        + "AND PESSOAS.IS_ACTIVE = TRUE";
     
     public MedicoRepository() {}
     
@@ -196,5 +207,35 @@ public class MedicoRepository {
         }
         
         return medico;
+    }
+    
+    public List<Medico> findAvailableMedicos(LocalDateTime startDate) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Medico> medicos = new ArrayList<>();
+
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(FIND_AVAILABLE_MEDICOS);
+            ps.setTimestamp(1, Timestamp.valueOf(startDate));
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Medico medico = new Medico();
+                medico.setId(rs.getInt("ID"));
+                medicos.add(medico);
+            }
+
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+
+        return medicos;
     }
 }

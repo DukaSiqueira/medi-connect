@@ -17,16 +17,24 @@ public class Consulta {
     private Medico medico;
     private String startdDate;
     private String endDate;
+    private String status;
+    private String motivo_cancelamento;
+    private String dateCancelamento;
 
     public Consulta() {}
 
-    public Consulta(int id, Paciente paciente, Medico medico, String startdDate, String endDate) {
+    public Consulta(int id, Paciente paciente, Medico medico, String startdDate, String endDate, String status, String motivo_cancelamento, String dateCancelamento) {
         this.id = id;
         this.paciente = paciente;
         this.medico = medico;
         this.startdDate = startdDate;
         this.endDate = endDate;
+        this.status = status;
+        this.motivo_cancelamento = motivo_cancelamento;
+        this.dateCancelamento = dateCancelamento;
     }
+
+
 
     public int getId() {
         return id;
@@ -68,11 +76,33 @@ public class Consulta {
         this.endDate = endDate;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMotivo_cancelamento() {
+        return motivo_cancelamento;
+    }
+
+    public void setMotivo_cancelamento(String motivo_cancelamento) {
+        this.motivo_cancelamento = motivo_cancelamento;
+    }
+
+    public String getDateCancelamento() {
+        return dateCancelamento;
+    }
+
+    public void setDateCancelamento(String dateCancelamento) {
+        this.dateCancelamento = dateCancelamento;
+    }
+
     @Override
     public String toString() {
-        return "Cosnulta{" + "id=" + id + ", paciente=" + paciente + ", "
-                + "medico=" + medico + ", "
-                + "startdDate=" + startdDate + ", endDate=" + endDate + '}';
+        return "Consulta{" + "id=" + id + ", paciente=" + paciente + ", medico=" + medico + ", startdDate=" + startdDate + ", endDate=" + endDate + ", status=" + status + ", motivo_cancelamento=" + motivo_cancelamento + ", dateCancelamento=" + dateCancelamento + '}';
     }
     
 }
