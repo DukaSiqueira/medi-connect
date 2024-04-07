@@ -30,8 +30,8 @@ public class PacienteRepository {
             + "FROM PACIENTES AS PC "
             + "INNER JOIN PESSOAS AS P ON PC.PESSOA_ID = P.ID "
             + "INNER JOIN ENDERECOS ON P.ENDERECO_ID = ENDERECOS.ID "
-            + "ORDER BY P.NOME ASC;";    
-
+            + "ORDER BY P.NOME ASC;";
+    
     public Paciente insert(Paciente paciente) throws SQLException{
         
         Connection conn = null;
@@ -105,6 +105,30 @@ public class PacienteRepository {
         }
         
         return pacientes;
+    }
+
+    public Paciente update(Paciente paciente) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            
+            EnderecoRepository enderecoRepository = new EnderecoRepository();
+            enderecoRepository.update(paciente.getPessoa().getEndereco());
+            
+            PessoaRepository pessoaRepository = new PessoaRepository();
+            pessoaRepository.update(paciente.getPessoa());
+            
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return paciente;
     }
     
 }

@@ -34,11 +34,33 @@ public class PacienteService {
         PacienteRepository pacienteRepository = new PacienteRepository();
         return pacienteRepository.index();        
     }
+    
+    public Paciente update(Paciente paciente) throws SQLException{
+        /* Validação de Endereço */
+        EnderecoService enderecoService = new EnderecoService();
+        enderecoService.validateInsertEndereco(paciente.getPessoa().getEndereco());
+        
+        /* Validação de Pessoa */
+        PessoaService pessoaService = new PessoaService();
+        pessoaService.validateUpdatePessoa(paciente.getPessoa());
+        
+        validateUpdatePaciente(paciente);
+        
+        PacienteRepository pacienteRepository = new PacienteRepository();
+        return pacienteRepository.update(paciente); 
+    }
 
     private void validateInsertPaciente(Paciente paciente) {
         if (paciente.getCpf().isBlank() ||
                 paciente.getCpf().isEmpty()) {
             throw new IllegalArgumentException("CPF não informado!");
+        }
+    }
+    
+    private void validateUpdatePaciente(Paciente paciente) {
+        if (!paciente.getCpf().isBlank() ||
+                !paciente.getCpf().isEmpty()) {
+            throw new IllegalArgumentException("CPF não pode ser alterado!");
         }
     }
     
