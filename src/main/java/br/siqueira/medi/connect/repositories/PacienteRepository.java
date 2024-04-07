@@ -130,5 +130,22 @@ public class PacienteRepository {
         
         return paciente;
     }
+
+    public void inactive(Paciente paciente) throws SQLException{
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            PessoaRepository pessoaRepository = new PessoaRepository();
+            pessoaRepository.inactive(paciente.getPessoa());
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }        
+    }
     
 }

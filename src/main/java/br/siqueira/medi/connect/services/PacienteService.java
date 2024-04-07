@@ -49,6 +49,15 @@ public class PacienteService {
         PacienteRepository pacienteRepository = new PacienteRepository();
         return pacienteRepository.update(paciente); 
     }
+    
+    public void inactvie(Paciente paciente) throws SQLException{
+        /* Validação de Pessoa */
+        PessoaService pessoaService = new PessoaService();
+        pessoaService.validateInactivePessoa(paciente.getPessoa());
+        
+        PacienteRepository pacienteRepository = new PacienteRepository();
+        pacienteRepository.inactive(paciente);
+    }
 
     private void validateInsertPaciente(Paciente paciente) {
         if (paciente.getCpf().isBlank() ||

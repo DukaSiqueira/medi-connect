@@ -42,4 +42,7 @@ public interface MediConnectWebService {
     
     @WebMethod
     Paciente updatePaciente(Paciente paciente) throws SQLException;
+    
+    @WebMethod
+    void inactivePaciente(Paciente paciente) throws SQLException;
 }
